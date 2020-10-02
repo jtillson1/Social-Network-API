@@ -1,22 +1,35 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, SchemaTypes } = require('mongoose');
 
 const UserSchema = new Schema({
+
     userName: {
         type: String
     },
-    createdBy: {
+    email: {
         type: String
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    size: {
-        type: String,
-        default: 'Large'
-    },
-    toppings: []
-});
+    thoughts: [
+        {
+            type: SchemaTypes.ObjectId,
+            //the ref tells which documents to search to find the right comments.
+            ref: "Thought",
+        },
+    ],
+    friends: [
+        {
+            type: SchemaTypes.ObjectId,
+            //the ref tells which documents to search to find the right comments.
+            ref: "User",
+        },
+    ],
+},
+    {
+        toJSON: {
+            virtuals: true,
+        },
+        id: false
+    }
+);
 
 const User = model('User', UserSchema);
 
