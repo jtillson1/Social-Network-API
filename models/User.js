@@ -1,5 +1,5 @@
 const { Schema, model, SchemaTypes } = require('mongoose');
-
+const moment = require('moment');
 const UserSchema = new Schema({
 
     userName: {
@@ -9,7 +9,10 @@ const UserSchema = new Schema({
         trim: true
     },
     email: {
-        type: String
+        type: String,
+        unique: true,
+        required: true,
+        match: [/.+\@.+\..+/, 'Enter your email!']
     },
     thoughts: [
         {
@@ -33,6 +36,8 @@ const UserSchema = new Schema({
         id: false
     }
 );
+
+
 
 // get total count of friends on retrieval
 UserSchema.virtual('friendCount').get(function() {
